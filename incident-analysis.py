@@ -39,7 +39,7 @@ network_incidents = [{
 # Create variables to store values
 unique_weeks = set()
 total_incidents_by_severity = {"critical": 0, "high": 0, "medium": 0, "low": 0}
-
+incidents_with_high_users = ""
 
 # Read out data on incidents
 for incident in network_incidents:
@@ -60,6 +60,10 @@ for incident in network_incidents:
     if incident.get("severity") == "low":
         total_incidents_by_severity["low"] += +1
 
+    # List all incidents that impacted more than 100 users
+    if incident["affected_users"] < 100:
+        incidents_with_high_users += ("  " + incident["ticket_id"] + "  " + incident["severity"].ljust(16)  + incident["description"] + "\n")
+
 
 
 
@@ -72,3 +76,7 @@ with open('incident_analysis.txt', 'w', encoding='utf-8') as f:
     f.write("  High:".ljust(20) + str(total_incidents_by_severity["high"]).rjust(3) + "\n")
     f.write("  Medium:".ljust(20) + str(total_incidents_by_severity["medium"]).rjust(3) + "\n")
     f.write("  low:".ljust(20) + str(total_incidents_by_severity["low"]).rjust(3) + "\n\n")
+    f.write("Incidenter som påverkat mer än 100 användare:\n")
+    f.write("-"*30 + "\n")
+    f.write("  Ticket id".ljust(17) + "Alvarighetsgrad".ljust(16) + "Beskrivning\n")
+    f.write(incidents_with_high_users + "\n\n")
