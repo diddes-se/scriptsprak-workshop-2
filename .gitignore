@@ -1,5 +1,6 @@
 incident_analysis.txt
 incidents_by_site.csv
+problem_devices.csv
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
